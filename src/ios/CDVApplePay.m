@@ -309,7 +309,7 @@
 
         NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithDecimal:[[item objectForKey:@"amount"] decimalValue]];
 
-        PKPaymentSummaryItem *newItem = [PKPaymentSummaryItem summaryItemWithLabel:label amount:amount];
+        PKPaymentSummaryItem *newItem = [PKPaymentSummaryItem summaryItemWithLabel:label amount:amount type:PKPaymentSummaryItemTypePending];
 
         [items addObject:newItem];
     }
@@ -600,6 +600,9 @@
         NSLog(@"Stripe token == %@", token.tokenId);        
         if (token) {
             [response setObject:token.tokenId forKey:@"stripeToken"];
+        }
+        if (token) {
+            [self.viewController dismissViewControllerAnimated:YES completion:nil];
         }
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
         [self.commandDelegate sendPluginResult:result callbackId:self.paymentCallbackId];
