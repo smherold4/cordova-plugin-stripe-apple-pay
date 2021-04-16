@@ -309,9 +309,13 @@
 
         NSDecimalNumber *amount = [NSDecimalNumber decimalNumberWithDecimal:[[item objectForKey:@"amount"] decimalValue]];
 
-        PKPaymentSummaryItem *newItem = [PKPaymentSummaryItem summaryItemWithLabel:label amount:amount type:PKPaymentSummaryItemTypePending];
-
-        [items addObject:newItem];
+        if ([[item objectForKey:@"type"] isEqualToString:@"pending"]) {
+          PKPaymentSummaryItem *newItem = [PKPaymentSummaryItem summaryItemWithLabel:label amount:amount type:PKPaymentSummaryItemTypePending];
+          [items addObject:newItem];
+        } else {
+          PKPaymentSummaryItem *newItem = [PKPaymentSummaryItem summaryItemWithLabel:label amount:amount type:PKPaymentSummaryItemTypeFinal];
+          [items addObject:newItem];
+        }
     }
 
     return items;
